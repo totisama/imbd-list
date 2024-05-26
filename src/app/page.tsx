@@ -14,7 +14,6 @@ export default async function Home ({ searchParams }: { searchParams: { sort?: s
 
   if (name !== undefined && name !== '') {
     movies = movies.filter((movie) => movie.name.toLocaleLowerCase().startsWith(name.toLocaleLowerCase()))
-    console.log(movies)
   }
 
   return (
