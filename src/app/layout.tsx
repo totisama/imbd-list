@@ -6,7 +6,7 @@ import type React from 'react'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'IMDB List',
+  title: 'IMDB top 250 movies',
   description: 'A list of the 250 movies from IMDB'
 }
 
