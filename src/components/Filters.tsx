@@ -67,16 +67,7 @@ export const Filters = ({ searchParams }: FilterProps) => {
   }, [debouncedValue, addNameFilter])
 
   return (
-    <div className="mb-10 flex justify-center gap-5">
-      <div className='flex items-center space-x-3'>
-        <label htmlFor="rating">Sort by Rating</label>
-        <input
-          defaultChecked={searchParams.sort === 'true' ? true : undefined}
-          name="sort"
-          onChange={toggleSort}
-          type="checkbox"
-          />
-      </div>
+    <div className="mb-10 flex flex-col justify-center items-center gap-5 lg:flex-row">
       <div className='flex items-center space-x-3'>
         <label htmlFor="rating">Sort by Name</label>
         <input
@@ -85,6 +76,15 @@ export const Filters = ({ searchParams }: FilterProps) => {
           onChange={(e) => { setName(e.target.value) }}
           type="text"
           className="px-4 py-2 text-black rounded-md"
+          />
+      </div>
+      <div className='flex items-center space-x-3'>
+        <label htmlFor="rating">Sort by Rating</label>
+        <input
+          defaultChecked={searchParams.sort === 'true' ? true : undefined}
+          name="sort"
+          onChange={toggleSort}
+          type="checkbox"
           />
       </div>
     </div>
