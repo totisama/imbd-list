@@ -12,6 +12,7 @@ interface FilterProps {
 export const Filters = ({ searchParams }: FilterProps) => {
   const router = useRouter()
   const pathname = usePathname()
+
   const [name, setName] = useState(searchParams.name)
   const debouncedValue = useDebounce(name, 500)
 
@@ -29,15 +30,11 @@ export const Filters = ({ searchParams }: FilterProps) => {
     return params
   }, [searchParams])
 
-  const toggleSort = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
-    const name = e.target.name
-    const value = e.target.checked
-    const localSearchParams = getSearchParams(e.target.name)
+  const setNewPath = (name: string, value: string) => {
+    const localSearchParams = getSearchParams(name)
 
-    if (value) {
-      localSearchParams.set(name, String(value))
+    if (value !== '') {
+      localSearchParams.set(name, value)
     }
 
     const newPath =
@@ -48,23 +45,22 @@ export const Filters = ({ searchParams }: FilterProps) => {
     router.push(newPath)
   }
 
+  const toggleSort = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
+    const name = e.target.name
+    const value = e.target.checked
+
+    setNewPath(name, String(value))
+  }
+
   const setGenreFilter = (
     e: ChangeEvent<HTMLSelectElement>
   ) => {
     const name = e.target.name
     const value = e.target.value
-    const localSearchParams = getSearchParams(e.target.name)
 
-    if (value !== '') {
-      localSearchParams.set(name, String(value))
-    }
-
-    const newPath =
-      localSearchParams.size > 0
-        ? '?' + localSearchParams.toString()
-        : pathname
-
-    router.push(newPath)
+    setNewPath(name, String(value))
   }
 
   const addNameFilter = useCallback((name: string, value: string | undefined) => {
