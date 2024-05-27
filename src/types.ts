@@ -10,3 +10,9 @@ export interface Movie {
   rating: number
   year: number
 }
+
+export interface SearchParams {
+  sort?: string
+  name?: string
+  genre?: string
+}
