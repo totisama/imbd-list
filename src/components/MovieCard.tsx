@@ -32,7 +32,7 @@ export const MovieCard = ({ movie, index, seen }: MovieCardProps) => {
           onError={(e) => { setError(true) }}
           className='px-2'
         />
-        <div className='py-5 hidden absolute bottom-0 text-center transition-all ease-in-out duration-300 bg-gray-800/95 w-full group-hover:block'>
+        <div className='py-5 opacity-0 absolute bottom-0 text-center transition-all ease-in-out duration-300 bg-gray-800/90 w-full group-hover:opacity-100'>
           {seen && <span className='absolute top-0 left-0'><CheckIcon className='w-8 h-8' /></span>}
           <h2 className='text-xl'>{name}</h2>
           <div className='flex flex-col gap-0 justify-center lg:gap-5 lg:flex-row'>
