@@ -1,4 +1,5 @@
 import { BackButton } from '@/components/BackButton'
+import { ToggleMovie } from '@/components/ToggleMovie'
 import { useMovies } from '@/hooks/useMovies'
 import Image from 'next/image'
 
@@ -34,7 +35,7 @@ export default async function MoviePage ({ params }: MoviePageProps) {
         </div>
         <div className='lg:w-1/2 lg:mt-16'>
           <h1 className='text-center lg:text-start text-6xl'>{movie.name}</h1>
-          <div className='space-y-3 my-10'>
+          <div className='space-y-3 mt-10 mb-5'>
             <h2 className='text-2xl font-bold'>Actors: {' '}
               <span className='text-lg text-gray-400 font-semibold'>{movie.actors.join(', ')}</span>
             </h2>
@@ -53,6 +54,7 @@ export default async function MoviePage ({ params }: MoviePageProps) {
               </h2>
             </div>
           </div>
+          <ToggleMovie movieName={movieName} />
           <p className='text-lg'>{movie.desc}</p>
         </div>
       </main>
