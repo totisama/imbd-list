@@ -3,9 +3,10 @@
 import { useCallback, useEffect, useState, type ChangeEvent } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useDebounce } from '@/hooks/useDebounce'
+import { GENRES } from '@/consts'
 
 interface FilterProps {
-  searchParams: { sort?: string, name?: string }
+  searchParams: { sort?: string, name?: string, genre?: string }
 }
 
 export const Filters = ({ searchParams }: FilterProps) => {
@@ -47,6 +48,25 @@ export const Filters = ({ searchParams }: FilterProps) => {
     router.push(newPath)
   }
 
+  const setGenreFilter = (
+    e: ChangeEvent<HTMLSelectElement>
+  ) => {
+    const name = e.target.name
+    const value = e.target.value
+    const localSearchParams = getSearchParams(e.target.name)
+
+    if (value !== '') {
+      localSearchParams.set(name, String(value))
+    }
+
+    const newPath =
+      localSearchParams.size > 0
+        ? '?' + localSearchParams.toString()
+        : pathname
+
+    router.push(newPath)
+  }
+
   const addNameFilter = useCallback((name: string, value: string | undefined) => {
     const localSearchParams = getSearchParams(name)
 
@@ -77,6 +97,20 @@ export const Filters = ({ searchParams }: FilterProps) => {
           type="text"
           className="px-4 py-2 text-black rounded-md"
           />
+      </div>
+      <div className='flex items-center space-x-3'>
+        <label htmlFor="rating">Sort by Genre</label>
+        <select
+          defaultValue={searchParams.genre}
+          name="genre"
+          onChange={setGenreFilter}
+          className="px-4 py-2 text-black rounded-md"
+        >
+          <option value=''>Select a genre</option>
+          {GENRES.map((genre) => (
+            <option key={genre} value={genre}>{genre}</option>
+          ))}
+        </select>
       </div>
       <div className='flex items-center space-x-3'>
         <label htmlFor="rating">Sort by Rating</label>
