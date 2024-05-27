@@ -7,12 +7,20 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 
-interface MovieCardProps { movie: Movie, index: number, seen: boolean }
+interface MovieCardProps { movie: Movie, index: number }
 
-export const MovieCard = ({ movie, index, seen }: MovieCardProps) => {
+export const MovieCard = ({ movie, index }: MovieCardProps) => {
   const { name, image_url: image, year, rating } = movie
   const href = `/movie/${encodeURIComponent(name.replaceAll(' ', '-'))}`
   const [error, setError] = useState(false)
+  const seenMoviesJson = localStorage.getItem('seenMovies')
+  let seen = false
+
+  if (seenMoviesJson !== null) {
+    const seenMovies = JSON.parse(seenMoviesJson)
+
+    seen = seenMovies.includes(name)
+  }
 
   return (
     <motion.li
@@ -29,11 +37,15 @@ export const MovieCard = ({ movie, index, seen }: MovieCardProps) => {
           width={500}
           height={500}
           priority={index <= 10}
-          onError={(e) => { setError(true) }}
+          onError={() => { setError(true) }}
           className='px-2'
         />
         <div className='py-5 opacity-0 absolute bottom-0 text-center transition-all ease-in-out duration-300 bg-gray-800/90 w-full group-hover:opacity-100'>
-          {seen && <span className='absolute top-0 left-0'><CheckIcon className='w-8 h-8' /></span>}
+          {seen &&
+            <span className='absolute top-0 left-0'>
+              <CheckIcon className='w-8 h-8' />
+            </span>
+          }
           <h2 className='text-xl'>{name}</h2>
           <div className='flex flex-col gap-0 justify-center lg:gap-5 lg:flex-row'>
             <h3 className='text-lg'>Year: <span className='text-green-500'>{year}</span></h3>
