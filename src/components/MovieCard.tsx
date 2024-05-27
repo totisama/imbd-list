@@ -32,7 +32,7 @@ export const MovieCard = ({ movie, index }: MovieCardProps) => {
     >
       <Link className='py-3 max-w-44 lg:max-w-60 hover:cursor-pointer' href={href}>
         <Image
-          src={error ? '/notFound.png' : image}
+          src={error ? '/notFound.webp' : image}
           alt={`${name} image`}
           width={500}
           height={500}
