@@ -17,7 +17,7 @@ export default async function Home ({ searchParams }: HomeProps) {
         <Filters searchParams={searchParams} />
         <ul className="flex justify-center flex-wrap gap-5">
           {movies.map((movie, index) => (
-            <MovieCard key={movie.name} movie={movie} index={index} seen={true} />
+            <MovieCard key={movie.name} movie={movie} index={index} />
           ))}
         </ul>
       </section>
