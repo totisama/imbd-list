@@ -10,13 +10,13 @@ interface MoviePageProps {
 
 export default async function MoviePage ({ params }: MoviePageProps) {
   const { movieName } = params
-  const unformattedMovieName = movieName.replace(/-/g, ' ')
+  const unformattedMovieName = decodeURIComponent(movieName).replace(/-/g, ' ')
   const { movies } = await useMovies({ name: unformattedMovieName })
 
   if (movies.length === 0) {
     return (
       <div className='flex flex-col justify-center items-center gap-5 w-full min-h-dvh text-center'>
-        <h1 className='text-4xl'>Movie not found :(</h1>
+        <h1 className='text-4xl'>{unformattedMovieName} {' '} Movie not found :(</h1>
         <BackButton />
       </div>
     )
