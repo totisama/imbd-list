@@ -1,10 +1,11 @@
+import { CheckIcon } from '@/icons'
 import { type Movie } from '@/types'
 import Image from 'next/image'
 import Link from 'next/link'
 
-interface MovieCardProps { movie: Movie, index: number }
+interface MovieCardProps { movie: Movie, index: number, seen: boolean }
 
-export const MovieCard = ({ movie, index }: MovieCardProps) => {
+export const MovieCard = ({ movie, index, seen }: MovieCardProps) => {
   const { name, image_url: image, year, rating } = movie
   const href = `/movie/${name.replaceAll(' ', '-')}`
 
@@ -13,6 +14,7 @@ export const MovieCard = ({ movie, index }: MovieCardProps) => {
       <Link className='py-3 max-w-44 lg:max-w-60 hover:cursor-pointer' href={href}>
         <Image className='px-2' priority={index <= 10 } src={image} width={500} height={500} alt={`${name} image`} />
         <div className='py-5 hidden absolute bottom-0 text-center transition-all ease-in-out duration-300 bg-gray-800/95 w-full group-hover:block'>
+          {seen && <span className='absolute top-0 left-0'><CheckIcon className='w-8 h-8' /></span>}
           <h2 className='text-xl'>{name}</h2>
           <div className='flex flex-col gap-0 justify-center lg:gap-5 lg:flex-row'>
             <h3 className='text-lg'>Year: <span className='text-green-500'>{year}</span></h3>
