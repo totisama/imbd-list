@@ -1,16 +1,19 @@
 import { BackButton } from '@/components/BackButton'
-import { type Movie } from '@/types'
+import { useMovies } from '@/hooks/useMovies'
 import Image from 'next/image'
 
-export default async function MoviePage ({ params: { movieName } }: { params: { movieName: string } }) {
-  const unformattedMovieName = movieName.replace(/-/g, ' ')
-  const data = await fetch(
-    'https://raw.githubusercontent.com/theapache64/top250/master/top250_min.json?authuser=1'
-  )
-  const movies: Movie[] = await data.json()
-  const movie = movies.find((movie) => movie.name.toLocaleLowerCase().startsWith(unformattedMovieName.toLocaleLowerCase()))
+interface MoviePageProps {
+  params: {
+    movieName: string
+  }
+}
 
-  if (movie === undefined) {
+export default async function MoviePage ({ params }: MoviePageProps) {
+  const { movieName } = params
+  const unformattedMovieName = movieName.replace(/-/g, ' ')
+  const { movies } = await useMovies({ name: unformattedMovieName })
+
+  if (movies.length === 0) {
     return (
       <div className='flex flex-col justify-center items-center gap-5 w-full min-h-dvh text-center'>
         <h1 className='text-4xl'>Movie not found :(</h1>
@@ -19,12 +22,13 @@ export default async function MoviePage ({ params: { movieName } }: { params: { 
     )
   }
 
+  const movie = movies[0]
   const ratingColor = movie.rating >= 8 ? 'text-green-500' : movie.rating >= 6 ? 'text-yellow-500' : 'text-red-500'
 
   return (
     <div className='py-10 px-10 lg:py-12 lg:px-24'>
       <BackButton />
-      <main className='flex flex-col gap-10 items-center lg:flex-row lg:items-start lg:justify-center lg:gap-24'>
+      <main className='flex flex-col mt-5 gap-10 items-center lg:flex-row lg:items-start lg:justify-center lg:gap-24'>
         <div className='h-96 flex justify-end lg:w-1/2 lg:h-full '>
           <Image className='object-contain' width={500} height={500} src={movie.image_url} alt={`${movie.name} image`} />
         </div>
